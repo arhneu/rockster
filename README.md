@@ -2,7 +2,10 @@
 A rhythm game prototype for Gamebuino Meta with custom track support.
 
 By: Dark Archon, arhn.eu
+
 Graphics: Neko
+
+Tracks charted by: Kicaken & Wielkimati
 
 ## Please note: while the game source code is free to use, share and edit, the included music tracks are mostly copyrighted content used with EXPLICIT permission from the musicians. The tracks are protected by copyright laws and can ONLY by shared as part of the game bundle.
 
