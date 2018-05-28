@@ -136,5 +136,5 @@ By: Arkadiusz Stawicki
 
 More tracks coming soon!
 
-##Extra libraries used:
+## Extra libraries used:
 The song editor uses the free Jquery (https://jquery.com/) and Wavesurfer (https://wavesurfer-js.org/) javascript libraries.
