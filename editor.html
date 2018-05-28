@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Rockster Music Editor</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/2.0.5/wavesurfer.min.js"></script>
+  </head>
+  <body>
+  Załaduj plik audio: <input id="sciezka" type="file" accept=".mp3,.wav,audio/*" />
+  <p id="title">Załaduj plik .mp3</p>
+  <div id="utwor"></div>
+  <div id="waveform" style="width: 100%;"></div>
+  <div style="width: 100%;"><textarea id="moving" class="sound" style="width: 150000px; position: relative; border: 0px;"></textarea></div>
+  <button onclick="wavesurfer.play();">Play</button> <button onclick="wavesurfer.pause();">Pause</button>
+  <p id="czas"></p>
+  <textarea class="sound" rows="50" cols="250"></textarea>
+  <script>
+var wavesurfer = WaveSurfer.create({
+    container: '#waveform',
+    waveColor: 'violet',
+    progressColor: 'purple',
+	autoCenter: true,
+	scrollParent: true,
+	minPxPerSec: 183,
+	barWidth: 10
+});  
+  
+  
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+	var player = document.getElementById('muza');
+	var duration;
+	
+String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
+
+	
+  //this function is called when the input loads a video
+	function loadaudio(file){
+		var reader = new FileReader();
+		reader.onload = function(event){
+		link = event.target.result;
+
+      //of course using a template library like handlebars.js is a better solution than just inserting a string
+      //$('#muza').attr("src", link);
+	  wavesurfer.load(link);
+      $('#title').html(file.name);
+	  //alert(wavesurfer.getDuration());
+	}
+    
+    //when the file is read it triggers the onload event above.
+		reader.readAsDataURL(file);
+	}
+
+	$( "#sciezka" ).change(function() {
+		//grab the first image in the fileList
+		//in this example we are only loading one file.
+		console.log(this.files[0].size);
+		loadaudio(this.files[0]);
+		player = document.getElementById('muza');
+	});
+} else {
+
+  alert('The File APIs are not fully supported in this browser.');
+
+}
+
+function setsong(){
+	duration = wavesurfer.getDuration();
+	//fill the note chart
+	var x = 0;
+	//game at 25FPS
+	while(x < duration*25){
+		var txt = $(".sound").val();
+		$(".sound").val(txt+"-");
+		x++;
+	}
+	console.log(duration);
+	console.log("x run times: "+x);
+}
+
+//keypresses
+let pressed = {};
+
+document.addEventListener('keydown', (event) => {
+   pressed[event.key] = true;
+});
+document.addEventListener('keyup', (event) => {
+   delete pressed[event.key];
+});
+
+//and now write your code
+document.addEventListener('keydown', (event) => {
+   console.log(event.key);
+ var txt = $(".sound").val();
+ //if music playing...
+ if(wavesurfer.getDuration() > 0 && wavesurfer.isPlaying() == true){
+		//BOTH keys pressed
+	  if(pressed["a"]&&pressed["d"]){
+			txt = txt.replaceAt(Math.floor(wavesurfer.getCurrentTime()*25), "3");
+			$(".sound").val(txt);
+	  }else if(pressed["a"]){
+			txt = txt.replaceAt(Math.floor(wavesurfer.getCurrentTime()*25), "1");
+			$(".sound").val(txt);
+	  }else if(pressed["s"]){
+			txt = txt.replaceAt(Math.floor(wavesurfer.getCurrentTime()*25), "3");
+			$(".sound").val(txt);
+	  }else if(pressed["d"]){
+			txt = txt.replaceAt(Math.floor(wavesurfer.getCurrentTime()*25), "2");
+			$(".sound").val(txt);
+	  }
+  }
+  
+  
+});
+
+//api
+wavesurfer.on('ready', function() {
+	setsong();
+});
+
+wavesurfer.on('audioprocess', function (event) {
+	console.log(event);
+	if(wavesurfer.getCurrentTime() > 1){
+		$("#moving").css("right", $("wave wave").last().width()-($( window ).width() / 2));
+	}else{
+	$("#moving").css("right", "");
+	}
+
+});
+
+</script>
+  </body>
+</html>
