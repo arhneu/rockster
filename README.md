@@ -40,6 +40,14 @@ To-do:
 - proper LED support for a more concert-like experience
 - custom background and note support for tracks
 
+## How to use:
+The game currently DOES NOT work in Gamebuino Meta emulators!
+1. Copy the .bin file and the MUSIC directory into /rockster folder on SD root.
+2. Music tracks inside are optional and can be freely replaced / deleted as deemed necessary.
+3. The game will currently crash if there are no songs or the song format is incorrect (read below for details).
+4. Instructions for creating your own tracks are located below.
+5. The game is currently just proof of concept so while you can play your music, songs over 2 minutes will crop out. There isn't an ending screen anywhere yet and the game tends to be quite glitchy. Use the "MENU" button to quit a song.
+
 ## Controls:
 Game controls:
 Press A to "hit" the red arrow, B to "hit" the blue arrow. For chords (both notes pressed at the same time) LEFT on the d-pad can be used instead.
